@@ -1,0 +1,123 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>eu.mf2c.stfc</groupId>
+	<artifactId>certauth</artifactId>
+	<packaging>war</packaging>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>mF2C Simple Cloud CAs</name>
+	<url>http://www.mf2c-project.eu/</url>
+	<organization>
+		<name>UKRI-STFC</name>
+		<url>https://stfc.ukri.org/</url>
+	</organization>
+	<description>A set of simple CAs that issues PKI X.509 certificates to mF2C infrastructure and agents</description>
+	<licenses>
+		<license>
+			<name>Apache Public License V2.0</name>
+			<url>https://www.apache.org/licenses/LICENSE-2.0/</url>
+			<distribution>manual</distribution>
+			<comments>A free software license written by the Apache Software Foundation.</comments>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<id>syc17</id>
+			<name>Shirley Crompton</name>
+			<email>shirley.crompton@stfc.ac.uk</email>
+			<organization>UKRI Science and Technology Facilities Council</organization>
+			<organizationUrl>http://www.stfc.ac.uk</organizationUrl>
+			<roles>
+				<role>developer</role>
+			</roles>
+			<timezone>Europe/London</timezone>
+		</developer>
+	</developers>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<dependencies>
+		<!-- https://mvnrepository.com/artifact/junit/junit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-server</artifactId>
+			<version>2.27</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.containers</groupId>
+			<artifactId>jersey-container-servlet</artifactId>
+			<version>2.27</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.inject</groupId>
+			<artifactId>jersey-hk2</artifactId>
+			<version>2.27</version>
+		</dependency>
+		<dependency>
+		<!-- for unit test -->
+	    <groupId>org.glassfish.jersey.core</groupId>
+		    <artifactId>jersey-client</artifactId>
+		    <version>2.27</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-web</artifactId>
+			<version>2.11.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15on -->
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcprov-jdk15on</artifactId>
+			<version>1.60</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-ext-debug-jdk15on -->
+		<!-- dependency> <groupId>org.bouncycastle</groupId> <artifactId>bcprov-ext-debug-jdk15on</artifactId> 
+			<version>1.60</version> </dependency -->
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcpkix-jdk15on</artifactId>
+			<version>1.56</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>generate-javadoc</id>
+						<!--<phase>generate-resources</phase>-->
+						 <!-- bind to the generate-resources phase -->
+						<goals>
+							<goal>javadoc</goal>
+						</goals>
+						<configuration>
+							<links>
+								<!-- link to java source code -->
+								<link>http://docs.oracle.com/javase/8/docs/api/</link>
+							</links>
+							<show>private</show>
+							<reportOutputDirectory>${project.build.directory}</reportOutputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>			
+		</plugins>
+		<finalName>certauths</finalName>
+	</build>
+</project>
