@@ -48,7 +48,13 @@ import eu.mf2c.stfc.util.CertUtil;
 @Path("/{ca}") //url: host:port/certauths/rest/<ca>, the '/' seems optional here
 public class CertAuthsRestService {
 	final static Logger logger = LogManager.getLogger(CertAuthsRestService.class);
-	//
+	/**
+	 * Handle HTTP Get method.  A default message is returned.
+	 * This method is included just for completeness.
+	 * <p>
+	 * @param ca	The certificate authority resource path element.
+	 * @return		A plain text message about the correct way to call the CA service.
+	 */
 	//@Path("/{ca}") //url: host:port/certauths/rest/<ca>
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
@@ -63,6 +69,22 @@ public class CertAuthsRestService {
 		}
 		//return builder.build();	
 	}
+	/**
+	 * Handle HTTP Post method.  If the target resource is&#58;
+	 * <ul>
+	 * <li>a trusted CA&#58; the client should post a Common Name in plain text and the service
+	 * would return an {@link java.security.cert.X509Certificate <em>X509certificate</em>} and the associated
+	 * {@link java.security.PrivateKey <em>PrivateKey</em>}. The two objects are concatenated together and written out
+	 * in PEM format.  Note that the Common Name is limited to 64 chars.</li>
+	 * <li>an untrusted CA&#58; the client should post a {@link org.bouncycastle.pkcs.PKCS10CertificationRequest <em>PKCS10CertificationRequest</em>}.
+	 * The service would return an {@link java.security.cert.X509Certificate <em>X509certificate</em>} in PEM format.</li>
+	 * </ul>
+	 * <p> 
+	 * @param content	either a Common Name or a {@link org.bouncycastle.pkcs.PKCS10CertificationRequest <em>PKCS10CertificationRequest</em>}		
+	 * @param ca		the target Certificate Authority resource path element.
+	 * @return 		an {@link java.security.cert.X509Certificate <em>X509certificate</em>} in PEM format and optionally 
+	 * 				the associated {@link java.security.PrivateKey <em>PrivateKey</em>}.
+	 */
 	//@Path("/{ca}")
 	@POST
 	@Consumes("text/plain")
@@ -94,7 +116,8 @@ public class CertAuthsRestService {
 				//
 				try {
 					if(input.length() > 65) {
-						throw new Exception("CN exceeded 64 chars!  Cannot issue certificate....");
+						//
+						return Response.status(400, "Expects a CN of length <= 64 chars!  Cannot issue certificate....").build();
 					}
 					KeyPair kp = CertUtil.genKeyPair();
 					X509Certificate trustedCert = CertUtil.generateCertificate(input, kp.getPublic(), CA.valueOf(ca.toUpperCase()));

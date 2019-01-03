@@ -142,18 +142,85 @@ public class CertAuthRestServiceTest {
 	 */
 	@Test
 	public void testAIT2trusted() {
+		System.out.println("\nabout to run testAIT2trusted");
 		String cn = "148.69.0.20";
 		CA ca = CA.IT2TRUSTEDCA;
 		System.out.println("About to invoke endpoint for " + ca.toString() + "....");
 		testTrustedCA(cn, ca);		
 	}
-	
+	/**
+	 * Test generating a certificate from the IT2UNTRUSTEDCA REST resource.
+	 */
 	@Test
 	public void testBIT2untrusted() {
+		System.out.println("\nabout to run testBIT2untrusted");
 		String cn = "148.69.0.20";
-		CA ca = CA.IT2UNTRUSTEDCA;
+		CA ca = CA.IT2UNTRUSTEDCA;			
 		System.out.println("About to invoke endpoint for " + ca.toString() + "....");
 		testUntrustedCA(cn, ca);
+	}
+		
+	/**
+	 * Test input validation of the trustedCA by sending a 
+	 * {@link org.bouncycastle.pkcs.PKCS10CertificationRequest <em>PKCS10CertificationRequest</em>}
+	 * instead of a common name to the service.  Service should return 400.
+	 */
+	@Test
+	public void testCTrustedCAIncorrectInput() {
+		System.out.println("\nabout to run testCTrustedCAIncorrectInput");
+		String cn = "148.69.0.20";
+		CA ca = CA.UC1TRUSTEDCA;
+		KeyPair keypair = CertUtil.genKeyPair();
+		String csrString = getCSRString(cn, ca, keypair);
+		System.out.println("About to invoke endpoint for " + ca.toString() + "....");
+		testTrustedCAException(csrString, ca);		
+	}
+	/**
+	 * Test calling an non-existing CA.  Service should return 404.
+	 * <p>
+	 * @param cn	{@java.lang.String <em>String</em>} representation of the common name
+	 * @param ca	The {@link eu.mf2c.stfc.util.CA <em>CA</em>} to test.
+	 */
+	@Test
+	public void testDNonExistingCA() {
+		System.out.println("\nabout to run testDNonExistingCA");
+		String cn = "148.69.0.20";
+		String ca = "AnyOldCA";
+		System.out.println("testDNonExistingCA about to call the : " + ca + "....");
+		//
+		Response response = client.target(ep).path(ca.toString().toLowerCase()).request(MediaType.TEXT_PLAIN).post(Entity.entity(cn, MediaType.TEXT_PLAIN));
+		//
+		System.out.println("About to check response from : " + ca.toString() + "....");
+		String responseStr = response.readEntity(String.class);
+		if(response.getStatus() != 404) {
+			//
+			logger.error("RC should be 404! But got: " + responseStr);
+			fail("RC should be 404! But got: " + responseStr);
+		}
+	}
+	/**
+	 * Test input validation of the untrustedCA by sending a common name instead of an
+	 * {@link org.bouncycastle.pkcs.PKCS10CertificationRequest <em>PKCS10CertificationRequest</em>}
+	 * to the service.  Service should return 400.
+	 */
+	@Test
+	public void testEUntrustedCAIncorrectInput() {
+		System.out.println("\nabout to run testEUntrustedCAIncorrectInput");
+		String cn = "148.69.0.20";
+		CA ca = CA.UC1UNTRUSTEDCA;
+		System.out.println("About to call the : " + ca.toString() + "....");
+		//
+		Response response = client.target(ep).path(ca.toString().toLowerCase()).request(MediaType.TEXT_PLAIN).post(Entity.entity(cn, MediaType.TEXT_PLAIN));
+		//
+		System.out.println("About to check response from : " + ca.toString() + "....");
+		String responseStr = response.readEntity(String.class);
+		if(response.getStatus() != 400) {
+			//
+			logger.error("RC should be 400! But got: " + responseStr);
+			fail("RC should be 400! But got: " + responseStr);
+		}
+		
+		
 	}
 	////////////////////////////////private methods////////////////
 	
@@ -165,29 +232,37 @@ public class CertAuthRestServiceTest {
 	 */
 	private void testTrustedCA(String cn, CA ca) {
 		//add resource path segment
-				Response response = client.target(ep).path(ca.toString().toLowerCase()).request(MediaType.TEXT_PLAIN).post(Entity.entity(cn, MediaType.TEXT_PLAIN));
-				//
-				String responseStr = response.readEntity(String.class);
-				if(response.getStatus() == 200) {
-					//
-					try {
-						System.out.println("The responseStr: \n" + responseStr);
-						verifyCertificate(responseStr, ca, cn );
-					} catch (Exception e) {
-						logger.error("Failed to verify the credentials from it2trustedca! Exception msg: " + e.getMessage());
-						fail("Failed to verify the credentials from it2trustedca! Exception msg: " + e.getMessage());
-					}			
-				}else {
-					logger.error("Failed to generate the credentials from it2trustedca! Status code is: " + response.getStatus() + ":" + responseStr);
-					fail("Failed to generate the credentials from it2trustedca! Status code is: " + response.getStatus() + ":" + responseStr);
-				}		
+		Response response = client.target(ep).path(ca.toString().toLowerCase()).request(MediaType.TEXT_PLAIN).post(Entity.entity(cn, MediaType.TEXT_PLAIN));
+		//
+		String responseStr = response.readEntity(String.class);
+		if(response.getStatus() == 200) {
+			//
+			try {
+				System.out.println("The responseStr: \n" + responseStr);
+				verifyCertificate(responseStr, ca, cn );
+			} catch (Exception e) {
+				logger.error("Failed to verify the credentials from it2trustedca! Exception msg: " + e.getMessage());
+				fail("Failed to verify the credentials from it2trustedca! Exception msg: " + e.getMessage());
+			}			
+		}else {
+			logger.error("Failed to generate the credentials from it2trustedca! Status code is: " + response.getStatus() + ":" + responseStr);
+			fail("Failed to generate the credentials from it2trustedca! Status code is: " + response.getStatus() + ":" + responseStr);
+		}		
 	}
-	
+	/**
+	 * Core method for testing an untrusted CA REST endpoint.  The method 
+	 * generates the required {@link org.bouncycastle.pkcs.PKCS10CertificationRequest
+	 *            <em>PKCS10CertificationRequest</em>}
+	 * <p>
+	 * @param cn	{@java.lang.String <em>String</em>} representation of the common name
+	 * @param ca	The {@link eu.mf2c.stfc.util.CA <em>CA</em>} to test.
+	 */
 	private void testUntrustedCA(String cn, CA ca) {
-		
+		//
 		KeyPair keypair = CertUtil.genKeyPair();
-		PKCS10CertificationRequest csr = null;
-		// keypair generated by the PMCertManager //UNTRUSTEDCA
+		String csrString = getCSRString(cn, ca, keypair);
+		/*PKCS10CertificationRequest csr = null;
+		// 
 		String ou = ca.toString().substring(0, 3) + "-UntrustedCA";
 		System.out.println("ou: " + ou);
 		PKCS10CertificationRequestBuilder p10Builder = new JcaPKCS10CertificationRequestBuilder(
@@ -201,6 +276,10 @@ public class CertAuthRestServiceTest {
 			csrString = CertUtil.getCSRString(csr);
 		}catch(Exception e) {
 			fail("Error generating the CSR for testing " + ca.toString());
+		}*/
+		if(csrString == null) {
+			fail("Failed to generate CSR String with cn(" + cn + ") for " + ca.toString());
+			return;
 		}
 		System.out.println("About to call the : " + ca.toString() + "....");
 		//
@@ -224,9 +303,28 @@ public class CertAuthRestServiceTest {
 			logger.error("Failed to generate the credentials from it2trustedca! Status code is: " + response.getStatus() + ":" + responseStr);
 			fail("Failed to generate the credentials from it2trustedca! Status code is: " + response.getStatus() + ":" + responseStr);
 		}
-		
 	}
-	
+	/**
+	 * Test incorrect content sent to the trusted CA.  Service should return 400.
+	 * <p>
+	 * @param csrString		a String representation of an {@link org.bouncycastle.pkcs.PKCS10CertificationRequest
+	 *            <em>PKCS10CertificationRequest</em>}
+	 * @param ca	The {@link eu.mf2c.stfc.util.CA <em>CA</em>} to test.
+	 */
+	private void testTrustedCAException(String csrString, CA ca) {
+		System.out.println("about to call the : " + ca.toString() + "....");
+		//
+		Response response = client.target(ep).path(ca.toString().toLowerCase()).request(MediaType.TEXT_PLAIN).post(Entity.entity(csrString, MediaType.TEXT_PLAIN));
+		//
+		System.out.println("About to check response from : " + ca.toString() + "....");
+		String responseStr = response.readEntity(String.class);
+		if(response.getStatus() != 400) {
+			//
+			logger.error("RC should be 400! But got: " + responseStr);
+			fail("RC should be 400! But got: " + responseStr);
+		}
+	}
+
 	/**
 	 * Create an X509 certificate object from a String representation.
 	 * 
@@ -359,6 +457,34 @@ public class CertAuthRestServiceTest {
 		int bcInt = certificate.getBasicConstraints();
 		// System.out.print("bcInt : " + bcInt); // is -1
 		assertTrue("an end-entity certificate should only have -1 cert path length constraint!", bcInt == -1);
+	}
+	/**
+	 * Generate a String representation of an {@link org.bouncycastle.pkcs.PKCS10CertificationRequest
+	 *            <em>PKCS10CertificationRequest</em>}
+	 * @param cn	{@java.lang.String <em>String</em>} representation of the common name
+	 * @param ca	The {@link eu.mf2c.stfc.util.CA <em>CA</em>} to test.
+	 * @param keypair The {@link java.security.KeyPair <em>KeyPair</em>} associated with the
+	 * 				{@link org.bouncycastle.pkcs.PKCS10CertificationRequest <em>PKCS10CertificationRequest</em>}
+	 * @return		The generated String or null.
+	 */
+	private String getCSRString(String cn, CA ca, KeyPair keypair) {
+		PKCS10CertificationRequest csr = null;
+		// 
+		String ou = ca.toString().substring(0, 3) + "-UntrustedCA";
+		System.out.println("ou: " + ou);
+		PKCS10CertificationRequestBuilder p10Builder = new JcaPKCS10CertificationRequestBuilder(
+				new X500Principal("CN=" + cn + ", OU=" + ou + ", O=mF2C, C=EU "), keypair.getPublic());
+		JcaContentSignerBuilder csBuilder = new JcaContentSignerBuilder("SHA256withRSA");
+		ContentSigner signer;
+		String csrString = null;
+		try {
+			signer = csBuilder.build(keypair.getPrivate());
+			csr = p10Builder.build(signer);
+			csrString = CertUtil.getCSRString(csr);
+		}catch(Exception e) {
+			fail("Error generating the CSR for testing " + ca.toString());
+		}
+		return csrString;
 	}
 	
 

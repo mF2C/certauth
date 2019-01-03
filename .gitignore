@@ -1,1 +1,11 @@
+# Eclipse
+.classpath
+
+.project
+.settings/
+
+#output
+target/generated-sources/
+target/maven-archiver/
+target/maven-status/
 /target/

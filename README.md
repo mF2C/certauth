@@ -27,23 +27,22 @@ The CN is restricted to 64 chars long.  An error will be thrown if the CN length
 The service returns a plain text String which contains the RSA (2048 length) private key concatenated with the
 X.509 certificate formatted in PEM.  Use a text editor to split them into separate file.  Each credentials
 is prefixed with the standard header like -----BEGIN CERTIFICATE-----, -----BEGIN RSA PRIVATE KEY-----
-You could also split them programmatically, see CertAuthRestServiceTest.verifyCertificate(String, CA, String) method
-for an example in JAVA.
+You could also split them programmatically, see CertAuthRestServiceTest.verifyCertificate(String, CA, String) 
+method for an example in JAVA.
 
 To use the *untrustedca service, the CAU should post a CSR String with the plain text mimetype.
 The service returns a plain text String which contains the issued certificate in PEM format.
 
-To bootstrap the demo, first obtain trusted certificates for your CAUs.  Install them together with the public keys of the 
-issuing CA.  You also need to add the issuing CA public key to the CAU client.
+To bootstrap the Discovery, Authentication (Security) and Categorization process flow, first obtain trusted 
+certificates for your CAUs out of band.  Install them together with the public keys of the issuing CA.  You also need to add the issuing CA public key to the CAU client.
 
-At runtime, the CA private key and certificate files need to be located at the host's \var\lib\certauths\ folder.
-These files (will be) are not bundled with the application but are stored in the mF2C owncloud at (somewhere).
+At runtime, the CAs' private keys and certificate files need to be located at the host's \var\lib\certauths\ folder.
+For security reason, these files are not bundled with the application but are stored in the mF2C owncloud repository
+under mF2C\Working Folders\WP5 PoC integration\CA\CA credentials\ .
 
 Shirley Crompton
 UKRI-STFC
-19 December 2018
-
-(This is a draft, I will correct the content after the holiday :)
+updated 2 January, 2019
 
 
 

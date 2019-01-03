@@ -322,8 +322,7 @@ public class CertUtil {
 	 * <li>id_kp_clientAuth</li>
 	 * <li>id_kp_serverAuth</li>
 	 * </ul>
-	 * <p>
-	 * 
+	 * <p> 
 	 * @param csr
 	 *            the {@link org.bouncycastle.pkcs.PKCS10CertificationRequest
 	 *            <em>PKCS10CertificationRequest</em>} to sign
