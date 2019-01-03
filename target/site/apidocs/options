@@ -1,0 +1,24 @@
+-classpath
+'C:/Users/syc1703/.m2/repository/org/glassfish/hk2/external/aopalliance-repackaged/2.5.0-b42/aopalliance-repackaged-2.5.0-b42.jar;C:/Users/syc1703/.m2/repository/javax/ws/rs/javax.ws.rs-api/2.1/javax.ws.rs-api-2.1.jar;C:/Users/syc1703/.m2/repository/org/bouncycastle/bcprov-jdk15on/1.60/bcprov-jdk15on-1.60.jar;C:/Users/syc1703/.m2/repository/org/glassfish/jersey/core/jersey-client/2.27/jersey-client-2.27.jar;C:/Users/syc1703/.m2/repository/org/glassfish/hk2/hk2-api/2.5.0-b42/hk2-api-2.5.0-b42.jar;C:/Users/syc1703/.m2/repository/org/apache/logging/log4j/log4j-api/2.11.1/log4j-api-2.11.1.jar;C:/Users/syc1703/.m2/repository/javax/annotation/javax.annotation-api/1.2/javax.annotation-api-1.2.jar;C:/Users/syc1703/.m2/repository/javax/inject/javax.inject/1/javax.inject-1.jar;C:/Users/syc1703/.m2/repository/org/apache/logging/log4j/log4j-core/2.11.1/log4j-core-2.11.1.jar;C:/Users/syc1703/.m2/repository/org/glassfish/jersey/core/jersey-common/2.27/jersey-common-2.27.jar;C:/Users/syc1703/.m2/repository/org/glassfish/hk2/hk2-locator/2.5.0-b42/hk2-locator-2.5.0-b42.jar;C:/Users/syc1703/.m2/repository/org/glassfish/jersey/containers/jersey-container-servlet-core/2.27/jersey-container-servlet-core-2.27.jar;C:/Users/syc1703/.m2/repository/org/bouncycastle/bcpkix-jdk15on/1.56/bcpkix-jdk15on-1.56.jar;C:/Users/syc1703/.m2/repository/org/glassfish/jersey/core/jersey-server/2.27/jersey-server-2.27.jar;C:/Users/syc1703/.m2/repository/org/glassfish/jersey/media/jersey-media-jaxb/2.27/jersey-media-jaxb-2.27.jar;C:/Users/syc1703/.m2/repository/org/glassfish/hk2/osgi-resource-locator/1.0.1/osgi-resource-locator-1.0.1.jar;C:/Users/syc1703/.m2/repository/org/javassist/javassist/3.22.0-CR2/javassist-3.22.0-CR2.jar;C:/Users/syc1703/.m2/repository/org/apache/logging/log4j/log4j-web/2.11.1/log4j-web-2.11.1.jar;C:/Users/syc1703/.m2/repository/org/glassfish/jersey/containers/jersey-container-servlet/2.27/jersey-container-servlet-2.27.jar;C:/Users/syc1703/.m2/repository/org/glassfish/jersey/inject/jersey-hk2/2.27/jersey-hk2-2.27.jar;C:/Users/syc1703/.m2/repository/org/glassfish/hk2/external/javax.inject/2.5.0-b42/javax.inject-2.5.0-b42.jar;C:/Users/syc1703/.m2/repository/org/glassfish/hk2/hk2-utils/2.5.0-b42/hk2-utils-2.5.0-b42.jar;C:/Users/syc1703/.m2/repository/javax/validation/validation-api/1.1.0.Final/validation-api-1.1.0.Final.jar'
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'E:/git-mF2C/certauth/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2019 <a href="https://stfc.ukri.org/">UKRI-STFC</a>. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'E:/git-mF2C/certauth/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'mF2C Simple Cloud CAs 0.0.1-SNAPSHOT API'
+-linkoffline
+'https://docs.oracle.com/javase/8/docs/api' 'E:/git-mF2C/certauth/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'mF2C Simple Cloud CAs 0.0.1-SNAPSHOT API'
