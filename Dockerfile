@@ -17,7 +17,7 @@ FROM tomcat:8.5.35-jre8
 #
 LABEL author="Shirley Crompton" \
       vendor="UK RI STFC" \
-      eu.mf2c-project.version="1.01" \
+      eu.mf2c-project.version="1.02" \
       eu.mf2c-project.version.is-production="false"
 #the base image already sets these vars
 #ENV CATALINA_HOME /usr/local/tomcat
@@ -32,11 +32,12 @@ RUN mkdir -p "/var/lib/certauths"
 ADD ./credentials /var/lib/certauths/
 #deploy the war
 ADD ./certauth/target/certauths.war /usr/local/tomcat/webapps/
-#replace the container config file
-COPY ./server.xml /ur/local/tomcat/conf/server.xml
+#replace the container config file and startup script
+COPY ./tomcat/server.xml /usr/local/tomcat/conf/server.xml
+COPY ./tomcat/catalina.sh /usr/local/tomcat/bin/catalina.sh
 #publish port 8080
 #EXPOSE 8080
-#update to run SSL/TLS
+#updated to run SSL/TLS
 EXPOSE 8443
 #run tomcat default in the base image
 CMD ["catalina.sh","run"]

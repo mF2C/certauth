@@ -30,8 +30,8 @@ class MyCAClient(object):
         ca_cert = os.path.join(cert_folder, "it2TrustedCA.pem")
         client_cert = os.path.join(cert_folder, "ddscd0003.pem")
         client_key = os.path.join(cert_folder,"ddscd0003.key")
-        #self._ca_domain = "https://213.205.14.13:8443/certauths/rest/uc2untrustedca"
-        self._ca_domain = "https://localhost:8443/certauths/rest/uc2untrustedca"
+        self._ca_domain = "https://213.205.14.13:54443/certauths/rest/uc2untrustedca"
+        #self._ca_domain = "https://localhost:8443/certauths/rest/uc2untrustedca"
         #create the client
         self._https = httplib2.Http(disable_ssl_certificate_validation=True)
         self._https.ca_certs = ca_cert        
@@ -71,16 +71,16 @@ class MyCAClient(object):
         print("Response from CA: " + str(response) + " || content: " + content.decode() )
         
         '''
-        OpenSSL> x509 -in ..\output\testSSL.pem -text
+        OpenSSL> x509 -in ../output/testSSLService.pem -text
         Certificate:
             Data:
                 Version: 3 (0x2)
-                Serial Number: 1548428509 (0x5c4b24dd)
+                Serial Number: 1548938771 (0x5c52ee13)
             Signature Algorithm: sha256WithRSAEncryption
                 Issuer: C=EU, ST=Sardegna, L=Cagliari, O=mF2C, OU=UC2-FOG, CN=UC2-UntrustedCA/emailAddress=shirley.crompton@stfc.ac.uk
                 Validity
-                    Not Before: Jan 25 00:00:00 2019 GMT
-                    Not After : Jan 25 00:00:00 2020 GMT
+                    Not Before: Jan 31 00:00:00 2019 GMT
+                    Not After : Jan 31 00:00:00 2020 GMT
                 Subject: C=EU, O=mF2C, OU=STFC, CN=CAU1
                 Subject Public Key Info:
                     Public Key Algorithm: rsaEncryption
@@ -120,27 +120,27 @@ class MyCAClient(object):
                     X509v3 Extended Key Usage:
                         TLS Web Client Authentication, TLS Web Server Authentication
             Signature Algorithm: sha256WithRSAEncryption
-                 a8:3c:5c:3f:c2:2f:e7:38:63:4a:7d:a5:66:2c:d0:6b:74:fb:
-                 7f:4b:6c:60:10:32:9c:19:6f:d8:bc:e4:7f:db:78:c1:fe:96:
-                 93:85:6c:ae:84:55:dd:c8:0d:28:d8:72:26:ef:21:05:81:dd:
-                 a1:50:26:b8:40:29:ae:57:95:a7:23:fd:2f:3a:8b:8b:6d:58:
-                 e2:e9:90:81:60:5a:2b:9a:5b:5d:5f:25:77:cd:f7:2d:74:72:
-                 7c:1b:f8:ce:bd:95:d9:5c:bb:07:de:2e:4d:fc:3a:15:cd:2f:
-                 df:96:5a:18:57:78:53:17:34:65:79:fb:5c:73:9e:ad:64:2d:
-                 17:b5:ab:7e:04:f1:43:03:1c:5a:ff:c7:9c:ac:17:37:9d:fd:
-                 2d:70:cf:35:e4:a2:aa:50:f0:c9:2d:c5:10:ec:53:09:62:7d:
-                 b8:3b:6c:2f:b0:a3:e6:ec:88:e0:f1:1d:cb:48:06:f3:1f:a4:
-                 15:4a:fd:c5:d4:d0:9a:4a:d6:d3:67:f7:2b:77:1b:74:89:43:
-                 b4:f4:22:7c:89:3a:66:06:09:77:5f:03:c3:6d:59:46:77:f9:
-                 19:83:1f:79:58:f6:61:21:9c:b7:43:79:39:f9:62:6f:67:26:
-                 5f:e4:d3:06:b3:78:4b:78:6b:92:10:8a:ef:7b:f3:de:11:58:
-                 c2:2b:fc:f6
+                 6a:7b:2a:8f:95:ec:1a:8d:a8:35:4f:39:b3:ae:20:b4:71:ff:
+                 57:08:48:09:41:a3:2f:42:9c:c5:7d:a6:21:0b:f4:54:24:00:
+                 d8:51:ce:20:63:dd:ff:a0:04:75:61:a3:2a:47:03:23:12:53:
+                 52:e8:48:d8:bb:5a:6d:dd:4b:17:65:0a:c9:42:44:f7:48:e0:
+                 13:62:c0:2b:e2:32:ba:a1:fd:1e:00:5f:6d:ac:13:c2:f4:4f:
+                 76:b1:95:d2:4f:f1:c2:7d:00:49:6f:05:f6:45:ce:f1:f1:ee:
+                 d3:df:1c:cb:9a:fd:63:4e:40:31:25:4b:86:0a:d8:48:df:28:
+                 1d:fe:24:3d:b1:20:11:3e:93:f1:1a:18:3a:98:07:92:97:53:
+                 2a:9a:d6:3f:5b:3b:db:66:22:d0:60:94:b5:2a:f0:fc:76:a4:
+                 70:73:cb:ee:46:e0:f4:13:d0:26:a9:cd:94:3b:c1:9c:cc:d7:
+                 90:84:48:6b:8a:07:27:69:54:8c:1e:9e:35:44:82:bd:ee:22:
+                 d8:9d:49:e2:ac:68:44:89:6a:20:f3:d3:f4:f3:82:70:75:5b:
+                 a7:61:15:12:7f:72:31:24:42:a5:17:04:63:57:87:82:cf:e8:
+                 bf:37:01:e1:bd:16:8a:43:19:d0:91:99:52:58:38:d0:c2:38:
+                 89:ba:27:65
         -----BEGIN CERTIFICATE-----
-        MIIEhzCCA2+gAwIBAgIEXEsk3TANBgkqhkiG9w0BAQsFADCBmjELMAkGA1UEBhMC
+        MIIEhzCCA2+gAwIBAgIEXFLuEzANBgkqhkiG9w0BAQsFADCBmjELMAkGA1UEBhMC
         RVUxETAPBgNVBAgMCFNhcmRlZ25hMREwDwYDVQQHDAhDYWdsaWFyaTENMAsGA1UE
         CgwEbUYyQzEQMA4GA1UECwwHVUMyLUZPRzEYMBYGA1UEAwwPVUMyLVVudHJ1c3Rl
         ZENBMSowKAYJKoZIhvcNAQkBFhtzaGlybGV5LmNyb21wdG9uQHN0ZmMuYWMudWsw
-        HhcNMTkwMTI1MDAwMDAwWhcNMjAwMTI1MDAwMDAwWjA6MQswCQYDVQQGEwJFVTEN
+        HhcNMTkwMTMxMDAwMDAwWhcNMjAwMTMxMDAwMDAwWjA6MQswCQYDVQQGEwJFVTEN
         MAsGA1UEChMEbUYyQzENMAsGA1UECxMEU1RGQzENMAsGA1UEAxMEQ0FVMTCCASIw
         DQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALhQ1hmBKUOIoQtSLYoXD3AWum80
         KMoERQBdaP2+9mA7kBC05djJMLsJHknqGFk6/mpmll4vAqHXqcqXmS1+1+38T+mH
@@ -154,13 +154,13 @@ class MyCAClient(object):
         VQQDDA9VQzItVW50cnVzdGVkQ0ExKjAoBgkqhkiG9w0BCQEWG3NoaXJsZXkuY3Jv
         bXB0b25Ac3RmYy5hYy51a4IJAKJUMU3RzZnaMB0GA1UdDgQWBBRwnHlUalaKkxf2
         DcdqxsTIo5csMzAMBgNVHRMBAf8EAjAAMA4GA1UdDwEB/wQEAwIEsDAdBgNVHSUE
-        FjAUBggrBgEFBQcDAgYIKwYBBQUHAwEwDQYJKoZIhvcNAQELBQADggEBAKg8XD/C
-        L+c4Y0p9pWYs0Gt0+39LbGAQMpwZb9i85H/beMH+lpOFbK6EVd3IDSjYcibvIQWB
-        3aFQJrhAKa5Xlacj/S86i4ttWOLpkIFgWiuaW11fJXfN9y10cnwb+M69ldlcuwfe
-        Lk38OhXNL9+WWhhXeFMXNGV5+1xznq1kLRe1q34E8UMDHFr/x5ysFzed/S1wzzXk
-        oqpQ8MktxRDsUwlifbg7bC+wo+bsiODxHctIBvMfpBVK/cXU0JpK1tNn9yt3G3SJ
-        Q7T0InyJOmYGCXdfA8NtWUZ3+RmDH3lY9mEhnLdDeTn5Ym9nJl/k0wazeEt4a5IQ
-        iu97894RWMIr/PY=
+        FjAUBggrBgEFBQcDAgYIKwYBBQUHAwEwDQYJKoZIhvcNAQELBQADggEBAGp7Ko+V
+        7BqNqDVPObOuILRx/1cISAlBoy9CnMV9piEL9FQkANhRziBj3f+gBHVhoypHAyMS
+        U1LoSNi7Wm3dSxdlCslCRPdI4BNiwCviMrqh/R4AX22sE8L0T3axldJP8cJ9AElv
+        BfZFzvHx7tPfHMua/WNOQDElS4YK2EjfKB3+JD2xIBE+k/EaGDqYB5KXUyqa1j9b
+        O9tmItBglLUq8Px2pHBzy+5G4PQT0CapzZQ7wZzM15CESGuKBydpVIwenjVEgr3u
+        ItidSeKsaESJaiDz0/TzgnB1W6dhFRJ/cjEkQqUXBGNXh4LP6L83AeG9FopDGdCR
+        mVJYONDCOIm6J2U=
         -----END CERTIFICATE-----                                     
         '''        
     def doSSLGet(self):
@@ -173,6 +173,6 @@ class MyCAClient(object):
         #Hello, you are trying to get this ca: uc2untrustedca.  Only post method supported.
         
 myClient = MyCAClient()
-myClient.doSSLGet() #over http port 8443
-myClient.doSSLPost() #https port 8443
+myClient.doSSLGet() #over https port 54443
+myClient.doSSLPost() #https port 54443
 
