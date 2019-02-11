@@ -208,6 +208,7 @@ public class CertAuthorityTest {
 	 * @param targetCA	
 	 */
 	private void testGenTrustedCert(String cn, CA targetCA) {
+		System.out.println("\nTestGenTrustedCert for " + targetCA.toString() + ":\n");
 
 		try {
 			String cert = ca.generateTrustCert(cn, targetCA);
@@ -229,6 +230,7 @@ public class CertAuthorityTest {
 	 * @param targetCA	the issuing {@link eu.mf2c.stfc.util.CA <em>CA</em>}
 	 */
 	private void testGenUntrustedCert(String cn, CA targetCA) {
+		System.out.println("\nTestGenUntrustedCert for " + targetCA.toString() + ":\n");
 		//get a keypair
 		try {
 			KeyPair keypair = genKeyPair();
@@ -253,7 +255,8 @@ public class CertAuthorityTest {
 					 e.getMessage());
 			fail("Failed to generate a correct unstrusted certificate using CSR for cn(" + cn + ") from ca(" + targetCA.toString() + "): " + 
 					 e.getMessage());
-		}		
+		}
+		
 	}
 	/**
 	 * Generate an RSA {@link java.security.KeyPair <em>KeyPair</em>} of 2048 length

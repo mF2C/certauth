@@ -360,7 +360,8 @@ public class CertUtil {
 	public static X509Certificate generateCertificate(String cn, PublicKey subPK, CA ca) throws Exception {
 		//
 		return generateCertificate(
-				new X500Name("CN=" + cn + ", OU=" + ca.toString().substring(0, 2) + "-FOG" + ", O=mF2C, C=EU "), subPK,
+				//11Feb2018 substring 3 position rather than 2
+				new X500Name("CN=" + cn + ", OU=" + ca.toString().substring(0, 3) + "-FOG" + ", O=mF2C, C=EU "), subPK,
 				ca);
 
 	}
@@ -393,8 +394,11 @@ public class CertUtil {
 		X509Certificate x509 = null;
 		// load the ca key and ca cert
 		X509Certificate caCert = loadCert(ca.toString().toLowerCase() + ".pem");
-		PrivateKey caKey = loadPrivateKey((ca.toString().substring(0, 3)).toLowerCase() + "ca.key");
-		//
+		//start 11Feb2018 edit to support different keys for untrusted and trusted cas
+		//PrivateKey caKey = loadPrivateKey((ca.toString().substring(0, 3)).toLowerCase() + "ca.key");
+		PrivateKey caKey = loadPrivateKey(ca.toString().toLowerCase() + ".key");
+		System.out.println("debug: the ca is: " + ca.toString().toLowerCase() + "....");
+		//end 11Feb2018
 		LocalDate startDate = LocalDate.now();
 		// end date 1 year from now
 		Period period = Period.ofYears(1);
