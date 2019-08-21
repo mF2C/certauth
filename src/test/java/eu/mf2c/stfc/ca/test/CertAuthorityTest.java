@@ -323,9 +323,8 @@ public class CertAuthorityTest {
 	}
 	/**
 	 * Check the provided {@link java.security.X509Certificate <em>X509Certificate</em>} objects against the provided parameters.
-	 * <p>
-	 * @param privKey		the {@link java.security.PrivateKey <em>PrivateKey</em>} associated with the certificate object
-	 * @param certificate	the {@link java.security.X509Certificate <em>X509Certificate</em>} to check
+	 * <p> 
+	 * @param cert	the {@link java.security.X509Certificate <em>X509Certificate</em>} to check
 	 * @param targetCA		issuing {@link eu.mf2c.stfc.util.CA <em>CA</em}
 	 * @param cn			the common name of the {@link java.security.X509Certificate <em>X509Certificate</em>}
 	 * @throws InvalidKeySpecException	if error creating a reciprocal public key from the provided  

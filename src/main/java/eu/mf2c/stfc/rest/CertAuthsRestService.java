@@ -63,7 +63,14 @@ public class CertAuthsRestService {
 		logger.info("CertAuthsRestService's doGet() called for ca: " + ca);
 		//need to check the requested ca
 		if(validateCA(ca)) {
-			return Response.ok("Hello, you are trying to get this ca: " + ca + ".  Only post method supported.").build();
+			//21Aug2019 return CA public key
+			try {
+				return Response.ok(CertUtil.loadCAPem(ca)).build();
+				//return Response.ok("Hello, you are trying to get this ca: " + ca + ".  Only post method supported.").build();
+			}catch(Exception e) {
+				logger.error("Error getting CA certificate using " + ca + ": " + e.getMessage());
+				return Response.status(500, "Error getting CA certificate using " + ca + ": " + e.getMessage()).build();
+			}
 		}else {
 			return Response.status(404, "Sorry, no such " + ca + "!").build();
 		}

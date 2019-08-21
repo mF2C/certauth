@@ -64,7 +64,7 @@ public class CertAuthority {
 	public String generateTrustCert(String cn, CA ca) throws Exception {
 		if (cn == null || cn.isEmpty()) {
 			throw new Exception("No CN provided.  Cannot generate certificate....");
-		} else if (!ca.toString().contains("TRUSTED")) {
+		} else if (ca.toString().contains("UNTRUSTED")) {
 			throw new Exception("Incorrect ca(" + ca.toString() + "), only trusted CAs allowed....");
 		} else {
 			// go ahead, issue trusted certificate. can use '.' in a file name in both linux

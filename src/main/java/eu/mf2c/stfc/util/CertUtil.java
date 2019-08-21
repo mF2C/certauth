@@ -24,6 +24,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -84,6 +87,8 @@ public class CertUtil {
 	final static Logger logger = LogManager.getLogger(CertUtil.class);
 	/** Secure random number generator attribute */
 	private static SecureRandom random = new SecureRandom();
+	/** credential folder attribute */
+	private final static String credFolder = File.separator + "var" + File.separator + "lib" + File.separator + "certauths" + File.separator;
 
 	/**
 	 * Helper method to load an X.509 certificate from file. The certificate needs
@@ -99,8 +104,7 @@ public class CertUtil {
 	public static X509Certificate loadCert(String fileName) {
 
 		// add the target folder and create an absolute path
-		String absPath = File.separator + "var" + File.separator + "lib" + File.separator + "certauths" + File.separator
-				+ fileName;
+		String absPath = credFolder + fileName;
 		//
 		X509Certificate cert = null;
 		try (FileInputStream inStream = new FileInputStream(new File(absPath))) {
@@ -129,8 +133,7 @@ public class CertUtil {
 	 */
 	public static PrivateKey loadPrivateKey(String fileName) {
 		// add the target folder and create an absolute path
-		String absPath = File.separator + "var" + File.separator + "lib" + File.separator + "certauths" + File.separator
-				+ fileName;
+		String absPath = credFolder + fileName;
 		// http://www.xinotes.net/notes/note/1899/
 		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
 		PemReader pemReader = null;
@@ -199,6 +202,23 @@ public class CertUtil {
 		return new PKCS10CertificationRequest(requestBytes);		
 	}
 	/**
+	 * Get a {@link java.lang.String <em>String</em>} representation 
+	 * of a specified file.
+	 * <p>
+	 * @param ca  A {@link java.lang.String <em>String</em>} representation of the
+	 * 			       target CA
+	 * @return		   the file {@link java.lang.String <em>String</em>}
+	 * @throws IOException	if file does not exist or errors when reading the file
+	 */
+	public static String loadCAPem(String ca) throws IOException {
+		String pathStr = credFolder + ca + ".pem";
+		logger.debug("target CA cert pem: " + pathStr);
+		String pem = "";
+		pem = new String(Files.readAllBytes(Paths.get(pathStr)));			
+		logger.debug(pathStr + ":\n" + pem);
+		return pem;
+	}
+	/**
 	 * Write an {@link java.security.cert.X509Certificate <em>X509certificate</em>} to file. 
 	 * The output file would be in PEM format.
 	 * <p>
@@ -214,8 +234,7 @@ public class CertUtil {
 	 */
 	public static void writeCertPEM2File(X509Certificate x509Cert, String fileName, CA ca) throws Exception {
 		// add the target folder and create an absolute path
-		String absPath = File.separator + "var" + File.separator + "lib" + File.separator + "certauths" + File.separator
-				+ ca.toString() + File.separator + fileName;
+		String absPath = credFolder + ca.toString() + File.separator + fileName;
 		System.out.println("the X509 file target : " + absPath);
 		logger.debug("the X509 file target : " + absPath);
 		// eg. filename = "resources\\rsa_pub.pem"
@@ -248,8 +267,7 @@ public class CertUtil {
 	 */
 	public static void writePrivateKey2File(PrivateKey privKey, String fileName, CA ca) throws Exception {
 		// add the target folder and create an absolute path
-		String absPath = File.separator + "var" + File.separator + "lib" + File.separator + "certauths" + File.separator
-				+ ca.toString() + File.separator + fileName;
+		String absPath = credFolder + ca.toString() + File.separator + fileName;
 		System.out.println("the private key file target : " + absPath);
 		logger.debug("the private key file target : " + absPath);
 		//
@@ -423,6 +441,7 @@ public class CertUtil {
 		certBuilder.addExtension(Extension.keyUsage, true, keyUsage);
 		ExtendedKeyUsage extendedKeyUsage = new ExtendedKeyUsage(
 				new KeyPurposeId[] { KeyPurposeId.id_kp_clientAuth, KeyPurposeId.id_kp_serverAuth });
+		//:todo, set iscritical = true, Jens said so 18/4/2019
 		certBuilder.addExtension(Extension.extendedKeyUsage, false, extendedKeyUsage);
 		// build BouncyCastle certificate
 		ContentSigner signer;
