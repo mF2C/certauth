@@ -17,7 +17,7 @@ FROM tomcat:8.5.35-jre8
 #
 LABEL author="Shirley Crompton" \
       vendor="UK RI STFC" \
-      eu.mf2c-project.version="1.02" \
+      eu.mf2c-project.version="1.05" \
       eu.mf2c-project.version.is-production="false"
 #the base image already sets these vars
 #ENV CATALINA_HOME /usr/local/tomcat
